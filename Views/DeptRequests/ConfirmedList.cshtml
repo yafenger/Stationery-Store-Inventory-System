@@ -1,0 +1,302 @@
+﻿@model List<ADProjectBase2.Models.DeptRequest>
+@{
+    ViewData["Title"] = "ConfirmedList";
+}
+
+
+<head>
+
+    <style>
+
+        .button {
+            display: inline-block;
+            border-radius: 4px;
+            background-color: #72c8ba;
+            border: none;
+            color: #FFFFFF;
+            text-align: center;
+            font-size: 14px;
+            padding: 4px;
+            width: 200px;
+            transition: all 0.5s;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+            .button span {
+                cursor: pointer;
+                display: inline-block;
+                position: relative;
+                transition: 0.5s;
+            }
+
+                .button span:after {
+                    content: '»';
+                    position: absolute;
+                    opacity: 0;
+                    top: 0;
+                    right: -20px;
+                    transition: 0.5s;
+                }
+
+            .button:hover span {
+                padding-right: 25px;
+                color: #fff;
+            }
+
+                .button:hover span:after {
+                    opacity: 1;
+                    right: 0;
+                }
+
+        .btn-primary {
+            color: #fff;
+            background-color: #6a9bc4;
+            border-color: transparent;
+            padding: 4px;
+            width: 150px;
+            border-radius: 15px;
+        }
+
+            .btn-primary:focus,
+            .btn-primary.focus {
+                color: #fff;
+                background-color: #87a3c1;
+                border-color: transparent;
+            }
+
+            .btn-primary:hover {
+                color: #fff;
+                background-color: #87a3c1;
+                border-color: transparent;
+            }
+
+
+        .searchStyle {
+            -webkit-box-shadow: 0 0 0 1000px #fff inset;
+            border-radius: 10px;
+            border: 1px solid #DBDBDB;
+            background: #DBDBDB;
+            padding-left: 10px;
+        }
+
+
+        h2 {
+            text-shadow: 7px 7px 7px #dad6d6;
+            color: #707272
+        }
+
+        .background {
+            background-image: url(../Images/BACKGROUND.jpg);
+            background-repeat: inherit;
+            background-size: 100%;
+            padding-top: 50px;
+            padding-bottom: 20px;
+        }
+
+
+        .style-three {
+            width: 80%;
+            margin: 0 auto;
+            border: 0;
+            height: 1px;
+            background: #333;
+            background-image: linear-gradient(to right, #ccc, #333, #ccc);
+        }
+        .form-control {
+            display: block;
+            width: 100%;
+            height: 30px;
+            padding: 6px 12px;
+            font-size: 13px;
+            line-height: 1.42857143;
+            color: #555;
+            background-color: #fff;
+            background-image: none;
+            border: 1px solid #ccc;
+            border-radius: 4px;           
+        }
+
+            .form-control:focus {
+                border-color: #66afe9;
+                outline: 0;             
+            }
+
+            .form-control::-moz-placeholder {
+                color: #999;
+                opacity: 1;
+            }
+
+            .form-control:-ms-input-placeholder {
+                color: #999;
+            }
+
+            .form-control::-webkit-input-placeholder {
+                color: #999;
+            }
+
+            .form-control::-ms-expand {
+                background-color: transparent;
+                border: 0;
+            }
+
+            .form-control[disabled],
+            .form-control[readonly],
+            fieldset[disabled] .form-control {
+                background-color: #eee;
+                opacity: 1;
+            }
+
+            .form-control[disabled],
+            fieldset[disabled] .form-control {
+                cursor: not-allowed;
+            }
+    </style>
+
+
+</head>
+<body  class="background">
+
+    <h2><b><span><img src="~/images/edit.png" height="30" width="30">&nbsp;Confirmation List By Department</span></b></h2>
+    <hr class="style-three" />
+    <hr />
+    <form asp-action="ConfirmedList" method="get">
+        <div class="form-actions no-color">
+
+            @{
+                List<SelectListItem> listItems = new List<SelectListItem>();
+                listItems.Add(new SelectListItem
+                {
+                    Text = "Life Sciences",
+                    Value = "1"
+                });
+                listItems.Add(new SelectListItem
+                {
+                    Text = "Commerce",
+                    Value = "2",
+                });
+                listItems.Add(new SelectListItem
+                {
+                    Text = "Computer Science",
+                    Value = "3"
+                });
+                listItems.Add(new SelectListItem
+                {
+                    Text = "Registrar",
+                    Value = "4",
+                });
+                listItems.Add(new SelectListItem
+                {
+                    Text = "Zoology",
+                    Value = "5"
+                });
+                listItems.Add(new SelectListItem
+                {
+                    Text = "Business",
+                    Value = "6"
+                });
+                listItems.Add(new SelectListItem
+                {
+                    Text = "Administration",
+                    Value = "7",
+                });
+                listItems.Add(new SelectListItem
+                {
+                    Text = "Engineering",
+                    Value = "8"
+                });
+                listItems.Add(new SelectListItem
+                {
+                    Text = "English",
+                    Value = "9",
+                });
+                listItems.Add(new SelectListItem
+                {
+                    Text = "Store",
+                    Value = "10"
+                });
+            }
+
+            <table>
+                <tr class="col-md-12">
+                    <td><label style="font-size:16px">Department &nbsp;&nbsp;&nbsp;</label></td>
+                    <td>@Html.DropDownList("DeptId", listItems, "-- Please Select --", new { @class = "form-control" }) </td>
+                    <td>&nbsp;&nbsp;&nbsp;</td>
+                    <td> <button class="btn-primary" type="submit"><i class="fas fa-search"></i>&nbsp;&nbsp;Search</button></td>
+                </tr>
+            </table>
+
+        </div>
+    </form>
+    <br />
+    <br />
+
+    @using (Html.BeginForm("ConfirmedList", "DeptRequests", FormMethod.Post))
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Department
+                    </th>
+                    <th>
+                        Item ID
+                    </th>
+                    <th>
+                        Item Name
+                    </th>
+                    <th>
+                        Total Quantity Ordered
+                    </th>
+                    <th>
+                        Total Quantity Received
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    for (int i = 0; i < Model.Count; i++)
+                    {
+                        <tr>
+                            <td>
+                                <input type="hidden" asp-for="@Model[i].DeptReqId" />
+                                <input type="hidden" asp-for="@Model[i].GeneratedTime" />
+                                @Model[i].Dept.Name
+                            </td>
+                            <td>
+                                @Model[i].Item.ItemId
+                            </td>
+                            <td>
+                                @Model[i].Item.ItemName
+                            </td>
+                            <td>
+                                @Model[i].TotalQty
+                            </td>
+                            <td>
+                                @Model[i].ReceivedQty
+                            </td>
+                        </tr>
+                    }
+                }
+
+                <tr>
+                    <td colspan="5">
+                        <br />
+
+                        <div class="form-group col-md-5">
+                            @if (Model.Count > 0)
+                            {
+                                <button class="button" onclick="return confirm('Are you sure to submit?')" type="submit"><span><b>Confirm</b></span></button>
+                            }
+                        </div>
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    }
+
+ </body>
+

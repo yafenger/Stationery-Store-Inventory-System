@@ -1,0 +1,213 @@
+﻿@model ADProjectBase2.Models.DeptRequestsViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<head>
+
+    <style>
+
+        .button {
+            display: inline-block;
+            border-radius: 4px;
+            background-color: #72c8ba;
+            border: none;
+            color: #FFFFFF;
+            text-align: center;
+            font-size: 14px;
+            padding: 4px;
+            width: 200px;
+            transition: all 0.5s;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+            .button span {
+                cursor: pointer;
+                display: inline-block;
+                position: relative;
+                transition: 0.5s;
+            }
+
+                .button span:after {
+                    content: '»';
+                    position: absolute;
+                    opacity: 0;
+                    top: 0;
+                    right: -20px;
+                    transition: 0.5s;
+                }
+
+            .button:hover span {
+                padding-right: 25px;
+                color: #fff;
+            }
+
+                .button:hover span:after {
+                    opacity: 1;
+                    right: 0;
+                }
+
+        .btn-primary {
+            color: #fff;
+            background-color: #6a9bc4;
+            border-color: transparent;
+            padding: 4px;
+            width: 150px;
+            border-radius: 15px;
+        }
+
+            .btn-primary:focus,
+            .btn-primary.focus {
+                color: #fff;
+                background-color: #87a3c1;
+                border-color: transparent;
+            }
+
+            .btn-primary:hover {
+                color: #fff;
+                background-color: #87a3c1;
+                border-color: transparent;
+            }
+
+
+        .searchStyle {
+            -webkit-box-shadow: 0 0 0 1000px #fff inset;
+            border-radius: 10px;
+            border: 1px solid #DBDBDB;
+            background: #DBDBDB;
+            padding-left: 10px;
+        }
+
+
+        h2 {
+            text-shadow: 7px 7px 7px #dad6d6;
+            color: #707272
+        }
+
+        .background {
+            background-image: url(../Images/BACKGROUND.jpg);
+            background-repeat: inherit;
+            background-size: 100%;
+            padding-top: 50px;
+            padding-bottom: 20px;
+        }
+
+
+        .style-three {
+            width: 80%;
+            margin: 0 auto;
+            border: 0;
+            height: 1px;
+            background: #333;
+            background-image: linear-gradient(to right, #ccc, #333, #ccc);
+        }
+    </style>
+
+
+</head>
+
+<h2><b><span><img src="~/images/edit.png" height="30" width="30">&nbsp;Consolidated List</span></b></h2>
+<hr class="style-three" />
+<hr />
+
+<body class="background">
+
+    <div class="form-group">
+        <form asp-controller="DeptRequests" asp-action="Index" method="get">
+            <button type="submit" name="btnGenerate" value="generate" class="button"><span><b>Generate New</b></span></button>
+        </form>
+    </div>
+    <h4><b>Group By Department </b></h4>
+    <form asp-controller="DeptRequests" asp-action="Index" method="get">
+        <p>
+
+            <select asp-for="SearchType" asp-items="Model.deptList"></select>
+            <input type="text" asp-for="SearchString" class="searchStyle" size="70" />
+            @*<input type="submit" value="Search" class="btn-primary" />*@
+            <button class="btn-primary" type="submit" value="Search"><i class="fas fa-search"></i>&nbsp;&nbsp;Search</button>
+    </form>
+    <table class="table">
+        <thead>
+            <tr>
+                @*<th>
+                    Bin Number
+                </th>*@
+                <th>
+                    Item Name
+                </th>
+                <th>
+                    Department
+                </th>
+                <th>
+                    Collection Point
+                </th>
+                <th>
+                    Generated Time
+                </th>
+                <th>
+                    Total Quantity
+                </th>
+
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.deptRequests)
+            {
+                <tr>                    
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Item.ItemName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Dept.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Dept.Cp.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GeneratedTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TotalQty)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    
+    <h4><b>Group By Item</b></h4>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Bin Number
+                </th>
+                <th>
+                    Item Name
+                </th>
+                <th>
+                    Total Quantity
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item1 in Model.byItemList)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item1.BinNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item1.ItemName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item1.TotalQuantity)
+                    </td>                   
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>

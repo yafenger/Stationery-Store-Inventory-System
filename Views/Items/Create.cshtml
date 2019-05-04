@@ -1,0 +1,206 @@
+﻿@model ADProjectBase2.Models.Item
+@{
+    ViewData["Title"] = "Create";
+}
+<h2><b><span><img src="~/images/edit.png" height="30" width="30">&nbsp;Create Item</span></b></h2>
+<hr class="style-three" />
+<hr />
+
+
+<head>
+
+    <style>
+
+        .button {
+            display: inline-block;
+            border-radius: 4px;
+            background-color: #72c8ba;
+            border: none;
+            color: #FFFFFF;
+            text-align: center;
+            font-size: 14px;
+            padding: 4px;
+            width: 200px;
+            transition: all 0.5s;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+            .button span {
+                cursor: pointer;
+                display: inline-block;
+                position: relative;
+                transition: 0.5s;
+                color:#fff;
+            }
+
+                .button span:after {
+                    content: '»';
+                    position: absolute;
+                    opacity: 0;
+                    top: 0;
+                    right: -20px;
+                    transition: 0.5s;
+                    color:#fff;
+                }
+
+            .button:hover span {
+                padding-right: 25px;
+                color: #fff;
+            }
+
+                .button:hover span:after {
+                    opacity: 1;
+                    right: 0;
+                    color:#fff;
+                }
+
+                 .searchStyle {
+            -webkit-box-shadow: 0 0 0 1000px #fff inset;
+            border-radius: 10px;
+            border: 1px solid #DBDBDB;
+            background: #DBDBDB;
+            padding-left: 10px;
+        }
+
+      
+        h2 {
+            text-shadow: 7px 7px 7px #dad6d6;
+            color: #707272
+        }
+
+        .background {
+            background-image: url(../Images/BACKGROUND.jpg);
+            background-repeat: inherit;
+            background-size: 100%;
+            padding-top: 50px;
+            padding-bottom: 20px;
+        }
+
+
+        .style-three {
+            width: 80%;
+            margin: 0 auto;
+            border: 0;
+            height: 1px;
+            background: #333;
+            background-image: linear-gradient(to right, #ccc, #333, #ccc);
+        }
+        .form-control {
+            display: block;
+            width: 300px;
+            height: 30px;
+            padding: 6px 12px;
+            font-size: 11px;
+            line-height: 1.42857143;
+            color: #555;
+            background-color: #fff;
+            border: 1px solid #DBDBDB;
+            border-radius: 4px;
+            -webkit-box-shadow: 0 0 0 1000px #fff inset;
+            border-radius: 4px;
+            border: 1px solid #DBDBDB;
+            background: #DBDBDB;
+            padding-left: 10px;           
+        }
+
+            .form-control:focus {
+                border-color: #66afe9;
+                outline: 0;               
+            }
+
+            .form-control::-moz-placeholder {
+                color: #999;
+                opacity: 1;
+            }
+
+            .form-control:-ms-input-placeholder {
+                color: #999;
+            }
+
+            .form-control::-webkit-input-placeholder {
+                color: #999;
+            }
+
+            .form-control::-ms-expand {
+                background-color: transparent;
+                border: 0;
+            }
+
+            .form-control[disabled],
+            .form-control[readonly],
+            fieldset[disabled] .form-control {
+                background-color: #eee;
+                opacity: 1;
+            }
+
+            .form-control[disabled],
+            fieldset[disabled] .form-control {
+                cursor: not-allowed;
+            }
+    </style>
+
+
+</head>
+
+<body class="background">
+    <div class="row">
+        <div>
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label>Item ID</label>
+                    <input asp-for="ItemId" class="form-control" />
+                    <span asp-validation-for="ItemId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label>Item Name</label>
+                    <input asp-for="ItemName" class="form-control" />
+                    <span asp-validation-for="ItemName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label>Catalog</label>
+                    <select asp-for="CatId" class="form-control" asp-items="ViewBag.CatId"></select>
+                </div>
+                <div class="form-group">
+                    <label>Reorder Level</label>
+                    <input asp-for="ReorderLvl" class="form-control" />
+                    <span asp-validation-for="ReorderLvl" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label>Reorder Quantity</label>
+                    <input asp-for="ReorderQty" class="form-control" />
+                    <span asp-validation-for="ReorderQty" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Uom" class="control-label"></label>
+                    <input asp-for="Uom" class="form-control" />
+                    <span asp-validation-for="Uom" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Stock" class="control-label"></label>
+                    <input asp-for="Stock" class="form-control" />
+                    <span asp-validation-for="Stock" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Unitprice" class="control-label"></label>
+                    <input asp-for="Unitprice" class="form-control" />
+                    <span asp-validation-for="Unitprice" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+
+
+                    <a asp-action="Index" class="button" style="background-color:#88a1ac"><span><b>Cancel</b></span></a>
+                    <b><input type="submit" value="Confirm" class="button" /></b>
+
+                </div>
+            </form>
+        </div>
+    </div>
+    <div>
+    </div>
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }
+
+</body>

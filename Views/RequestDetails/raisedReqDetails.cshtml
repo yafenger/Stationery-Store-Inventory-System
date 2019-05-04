@@ -1,0 +1,150 @@
+﻿@model List<ADProjectBase2.Models.RequestDetails>
+
+@{
+    ViewData["Title"] = "raisedReqDetails";
+}
+
+
+<h2><b><span><img src="~/images/edit.png" height="30" width="30">&nbsp;Request Details</span></b></h2>
+<hr class="style-three" />
+<hr />
+
+<head>
+
+    <style>
+
+        .button {
+            display: inline-block;
+            border-radius: 4px;
+            background-color: #72c8ba;
+            border: none;
+            color: #FFFFFF;
+            text-align: center;
+            font-size: 14px;
+            padding: 4px;
+            width: 200px;
+            transition: all 0.5s;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+            .button span {
+                cursor: pointer;
+                display: inline-block;
+                position: relative;
+                transition: 0.5s;
+            }
+
+                .button span:after {
+                    content: '»';
+                    position: absolute;
+                    opacity: 0;
+                    top: 0;
+                    right: -20px;
+                    transition: 0.5s;
+                }
+
+            .button:hover span {
+                padding-right: 25px;
+            }
+
+                .button:hover span:after {
+                    opacity: 1;
+                    right: 0;
+                }
+
+        h2 {
+            text-shadow: 7px 7px 7px #dad6d6;
+            color: #707272
+        }
+
+        .background {
+            background-image: url(../Images/BACKGROUND.jpg);
+            background-repeat: inherit;
+            background-size: 100%;
+            padding-top: 50px;
+            padding-bottom: 20px;
+        }
+
+
+        .style-three {
+            width: 80%;
+            margin: 0 auto;
+            border: 0;
+            height: 1px;
+            background: #333;
+            background-image: linear-gradient(to right, #ccc, #333, #ccc);
+        }
+    </style>
+
+
+</head>
+
+<body class="background">
+
+    @using (Html.BeginForm("raisedReqDetails", "RequestDetails", FormMethod.Post))
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Item Name
+                    </th>
+                    <th>
+                        Quantity
+                    </th>
+                    <th><a asp-controller="Requests" asp-action="Cart"><i class="fas fa-cart-plus"></i>&nbsp; Add New Item</a></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    for (int i = 0; i < Model.Count; i++)
+                    {
+                        <tr>
+
+                            <td>
+                                <form></form>
+                                @Model[i].Item.ItemName
+                            </td>
+                            <td>
+                                @*@Model[i].RequestedQty*@
+                                <input asp-for="@Model[i].RequestedQty" type="text" value="@Model[i].RequestedQty" onkeyup="value=value.replace(/[^0-9]/g,'')"
+                                       onpaste="value=value.replace(/[^0-9]/g,'')"
+                                       oncontextmenu="value=value.replace(/[^0-9]/g,'')" />
+                                <span asp-validation-for="@Model[i].RequestedQty" class="text-danger"></span>
+                            </td>
+                            <td>
+                                <form asp-action="DeleteItem" method="post">
+                                    <div class="form-actions no-color">
+                                        <button type="submit" name="detailsId" value="@Model[i].ReqDetailsId" class="button" style="background-color:#bb6666;font-size:14px;margin-top:-3px"><span><b>Delete</b></span></button>
+                                    </div>
+                                </form>
+                            </td>
+                            <td>
+                                <input type="hidden" asp-for="@Model[i].ReqDetailsId" />
+                                <input type="hidden" asp-for="@Model[i].RequestId" />
+                            </td>
+                        </tr>
+                    }
+                }
+
+            </tbody>
+            @if (Model.Count > 0)
+            {
+                <tr>
+                    <td colspan="3">
+                        <br />
+                        <div class="form-group col-md-5">
+                            <button class="button" onclick="return confirm('Are you sure to submit?')" type="submit"><span><b>Submit</b></span></button>
+                        </div>
+                    </td>
+                </tr>}
+        </table>
+    }
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }
+
+</body>
+

@@ -1,0 +1,208 @@
+﻿@model List<ADProjectBase2.Models.AVDetails>
+@{
+    ViewData["Title"] = "Pending Adjustment Voucher Details";
+}
+<head>
+
+    <style>
+
+        .button {
+            display: inline-block;
+            border-radius: 4px;
+            background-color: #72c8ba;
+            border: none;
+            color: #FFFFFF;
+            text-align: center;
+            font-size: 14px;
+            padding: 4px;
+            width: 100px;
+            transition: all 0.5s;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+            .button span {
+                cursor: pointer;
+                display: inline-block;
+                position: relative;
+                transition: 0.5s;
+            }
+
+                .button span:after {
+                    content: '»';
+                    position: absolute;
+                    opacity: 0;
+                    top: 0;
+                    right: -20px;
+                    transition: 0.5s;
+                }
+
+            .button:hover span {
+                padding-right: 25px;
+                color: #fff;
+            }
+
+                .button:hover span:after {
+                    opacity: 1;
+                    right: 0;
+                }
+
+        .btn-primary {
+            color: #fff;
+            background-color: #6a9bc4;
+            border-color: transparent;
+            padding: 4px;
+            width: 150px;
+            border-radius: 4px;
+        }
+
+            .btn-primary:focus,
+            .btn-primary.focus {
+                color: #fff;
+                background-color: #87a3c1;
+                border-color: transparent;
+            }
+
+            .btn-primary:hover {
+                color: #fff;
+                background-color: #87a3c1;
+                border-color: transparent;
+            }
+
+        h2 {
+            text-shadow: 7px 7px 7px #dad6d6;
+            color: #707272
+        }
+
+        .background {
+            background-image: url(../Images/BACKGROUND.jpg);
+            background-repeat: inherit;
+            background-size: 100%;
+            padding-top: 50px;
+            padding-bottom: 20px;
+        }
+
+
+        .style-three {
+            width: 80%;
+            margin: 0 auto;
+            border: 0;
+            height: 1px;
+            background: #333;
+            background-image: linear-gradient(to right, #ccc, #333, #ccc);
+        }
+    </style>
+
+
+</head>
+
+<h2><b><span><img src="~/images/edit.png" height="30" width="30">&nbsp;Adjustment Voucher # @ViewBag.AdjsutID</span></b></h2>
+<hr class="style-three" />
+<hr />
+
+<body >
+    @using (Html.BeginForm("ViewAV", "AVDetails", FormMethod.Post))
+    {
+        <div>
+            <a asp-controller="AdjustmentVouchers" asp-action="Main" asp-route-id="@Model[0].AdjustId" style="font-size:15px">Add More Items</a>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Item ID
+                    </th>
+                    <th style="width:100px">
+                        Item Name
+                    </th>
+                    <th  style="width:100px">
+                        Unit Price
+                    </th>
+                    <th>
+                        Operations
+                    </th>
+                    <th>
+                        Quantity
+                    </th>
+                    <th>
+                        Remarks
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    for (int i = 0; i < Model.Count; i++)
+                    {
+                        <tr>
+                            <td>
+                                @Model[i].ItemId
+                                <form> </form>
+                            </td>
+                            <td style="width:100px">
+                                @Model[i].Item.ItemName
+                            </td>
+                            <td  style="width:100px">
+                                $@Model[i].Item.Unitprice
+                            </td>
+                            <td>
+                                <div>
+                                    <input asp-for="@Model[i].Operations" value="+" type="radio" checked="checked" /> +
+                                    &nbsp;
+                                    <input asp-for="@Model[i].Operations" value="-" type="radio" /> -
+                                </div>
+                            </td>
+                            <td>
+                                <input asp-for="@Model[i].Qtychanged" type="text" value="@Model[i].Qtychanged" onkeyup="value=value.replace(/[^0-9]/g,'')"
+                                       onpaste="value=value.replace(/[^0-9]/g,'')"
+                                       oncontextmenu="value=value.replace(/[^0-9]/g,'')" />
+                                <span asp-validation-for="@Model[i].Qtychanged" class="text-danger"></span>
+                            </td>
+                            <td>
+                                <input asp-for="@Model[i].Remarks" type="text" value="@Model[i].Remarks" />
+                            </td>
+                            <td>
+                                <form asp-action="DeleteAVdetail" method="post">
+                                    <div class="form-actions no-color" style="margin-top:-5px">
+                                        <button type="submit" name="detailsId" value="@Model[i].AVDid" class="button" style="background-color:#bb6666;font-size:14px"><span><b>Delete</b></span></button>
+                                    </div>
+                                </form>
+                            </td>
+                            <td>
+                                <input type="hidden" asp-for="@Model[i].AVDid" />
+                            </td>
+                        </tr>
+                    }
+                        <tr>
+                            <td style="width:200px">Total Price Changed: </td>
+                            <td>
+                                $ @ViewBag.TotalPrice
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                }
+            </tbody>
+            <tr>
+                <td colspan="3">
+                    <br />
+                    <div class="form-group col-md-5">
+                        <button class="button" onclick="return confirm('Are you sure to submit?')" type="submit" style="width:200px"><span><b>Save</b></span></button>
+                    </div>
+                </td>
+                <td></td>
+                <td></td>
+                <td>                   
+                </td>
+            </tr>
+        </table>
+    }
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }
+
+</body>

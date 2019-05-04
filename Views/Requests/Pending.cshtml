@@ -1,0 +1,123 @@
+﻿@model IEnumerable<ADProjectBase2.Models.Request>
+
+@{
+    ViewData["Title"] = "Pending";
+}
+
+<h2><b><span><img src="~/images/edit.png" height="30" width="30">&nbsp;Requests</span></b></h2>
+<hr class="style-three" />
+<hr />
+<head>
+
+    <style>
+
+        .button {
+            display: inline-block;
+            border-radius: 4px;
+            background-color: #bb6666;
+            border: none;
+            color: #FFFFFF;
+            text-align: center;
+            font-size: 14px;
+            padding: 4px;
+            width: 200px;
+            transition: all 0.5s;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+            .button span {
+                cursor: pointer;
+                display: inline-block;
+                position: relative;
+                transition: 0.5s;
+                color: #fff;
+            }
+
+                .button span:after {
+                    content: '»';
+                    position: absolute;
+                    opacity: 0;
+                    top: 0;
+                    right: -20px;
+                    transition: 0.5s;
+                    color:#fff;
+                }
+
+            .button:hover span {
+                padding-right: 25px;
+                color:#fff;
+            }
+
+                .button:hover span:after {
+                    opacity: 1;
+                    right: 0;
+                    color: #fff;
+                }
+
+        h2 {
+            text-shadow: 7px 7px 7px #dad6d6;
+            color: #707272
+        }
+
+        .background {
+            background-image: url(../Images/BACKGROUND.jpg);
+            background-repeat: inherit;
+            background-size: 100%;
+            padding-top: 50px;
+            padding-bottom: 20px;
+        }
+
+        .style-three {
+            width: 80%;
+            margin: 0 auto;
+            border: 0;
+            height: 1px;
+            background: #333;
+            background-image: linear-gradient(to right, #ccc, #333, #ccc);
+        }
+    </style>
+</head>
+
+<body class="background">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.RequestId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.User)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Status)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RequestId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.User.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+                    <td>
+                        @if (item.Status == "Submitted")
+                        {
+                            <a asp-action="Action" asp-route-id="@item.RequestId" class="button"  style="margin-top:-3px;background-color:#72c8ba;"><span><b>Approve/Reject</b></span></a>
+                        }
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+

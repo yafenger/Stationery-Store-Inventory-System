@@ -1,0 +1,83 @@
+﻿@model ADProjectBase2.Models.Request
+
+<head>
+    <style>
+
+        h2 {
+            text-shadow: 7px 7px 7px #dad6d6;
+            color: #707272
+        }
+
+        .background {
+            background-image: url(../Images/BACKGROUND.jpg);
+            background-repeat: inherit;
+            background-size: 100%;
+            padding-top: 50px;
+            padding-bottom: 20px;
+        }
+
+
+        .style-three {
+            width: 80%;
+            margin: 0 auto;
+            border: 0;
+            height: 1px;
+            background: #333;
+            background-image: linear-gradient(to right, #ccc, #333, #ccc);
+        }
+    </style>
+</head>
+<body>
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2><b><span><img src="~/images/edit.png" height="30" width="30">&nbsp;Request Details</span></b></h2>
+<hr class="style-three" />
+<hr />
+
+
+    <label>Request ID: #@Html.DisplayFor(Model => (ViewData["details"] as IList<RequestDetails>)[0].Request.RequestId)</label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <label>Status: @Html.DisplayFor(Model => (ViewData["details"] as IList<RequestDetails>)[0].Request.Status)</label>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    <label>Item Name</label>
+                </th>
+                <th>
+                    <label>Quantity</label>
+                </th>
+                <th>
+                    <label>Unit</label>
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in ViewData["details"] as IList<RequestDetails>)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Item.ItemName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RequestedQty)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Item.Uom)
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+    @if ((ViewData["details"] as IList<RequestDetails>)[0].Request.Remarks != null)
+    {
+        string ss = (ViewData["details"] as IList<RequestDetails>)[0].Request.Remarks;
+        <label>Remark:</label>
+        <br />
+        <textarea readonly="readonly">@Html.DisplayFor(Model=>ss)</textarea>
+    }
+
+</body>

@@ -1,0 +1,195 @@
+﻿@model IEnumerable<ADProjectBase2.Models.Item>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2><b><span><img src="~/images/edit.png" height="30" width="30">&nbsp;Catalogue</span></b></h2>
+<hr class="style-three" />
+<hr />
+
+
+<head>
+
+    <style>
+
+        .button {
+            display: inline-block;
+            border-radius: 4px;
+            background-color: #72c8ba;
+            border: none;
+            color: #FFFFFF;
+            text-align: center;
+            font-size: 14px;
+            padding: 4px;
+            width: 200px;
+            transition: all 0.5s;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+            .button span {
+                cursor: pointer;
+                display: inline-block;
+                position: relative;
+                transition: 0.5s;
+                color:#fff;
+            }
+
+                .button span:after {
+                    content: '»';
+                    position: absolute;
+                    opacity: 0;
+                    top: 0;
+                    right: -20px;
+                    transition: 0.5s;
+                    color:#fff;
+                }
+
+            .button:hover span {
+                padding-right: 25px;
+                color:#fff;
+            }
+
+                .button:hover span:after {
+                    opacity: 1;
+                    right: 0;
+                    color:#fff;
+                }
+
+        .btn-primary {
+            color: #fff;
+            background-color: #6a9bc4;
+            border-color: transparent;
+            padding: 3px;
+            width: 150px;
+            border-radius: 15px;
+        }
+
+            .btn-primary:focus,
+            .btn-primary.focus {
+                color: #fff;
+                background-color: #87a3c1;
+                border-color: transparent;
+            }
+
+            .btn-primary:hover {
+                color: #fff;
+                background-color: #87a3c1;
+                border-color: transparent;
+            }
+
+
+        .searchStyle {
+            -webkit-box-shadow: 0 0 0 1000px #fff inset;
+            border-radius: 10px;
+            border: 1px solid #DBDBDB;
+            background: #DBDBDB;
+            padding-left: 10px;
+        }
+
+
+        h2 {
+            text-shadow: 7px 7px 7px #dad6d6;
+            color: #707272
+        }
+
+        .background {
+            background-image: url(../Images/BACKGROUND.jpg);
+            background-repeat: inherit;
+            background-size: 100%;
+            padding-top: 50px;
+            padding-bottom: 20px;
+        }
+
+
+        .style-three {
+            width: 80%;
+            margin: 0 auto;
+            border: 0;
+            height: 1px;
+            background: #333;
+            background-image: linear-gradient(to right, #ccc, #333, #ccc);
+        }
+    </style>
+
+
+</head>
+<body >
+    <form asp-controller="Items" asp-action="Index" method="get">
+        <p>
+            <b>Name </b><input type="text" name="SearchString" class="searchStyle" size="85">           
+            <button class="btn-primary" type="submit" value="Search"><i class="fas fa-search"></i>&nbsp;&nbsp;Search</button>
+        </p>
+    </form>
+        <form asp-route-id="preorder" asp-action="Index" method="get"  style="margin:0px;display:inline;">
+            <button class="button" type="submit"><span><b>Deal Preorders</b></span></button>
+        </form>
+   
+        <div style="float:right">
+            <a asp-action="ManageReorder" class="button"><span><b>Manage Reorder</b></span></a>
+            <a asp-action="ManageStocks" class="button"><span><b>Update Stocks</b></span></a>
+            <a asp-action="Create" class="button"><span><b>Add New Item</b></span></a>
+        </div>
+   
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Item ID
+                </th>
+                <th>
+                    Item Name
+                </th>
+                <th>
+                    Reorder Level
+                </th>
+                <th>
+                    Reorder Quantity
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Uom)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Stock)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Unitprice)
+                </th>
+                <th>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ItemId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ItemName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ReorderLvl)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ReorderQty)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Uom)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Stock)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Unitprice)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Cat.CatName)
+                    </td>                  
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</body>

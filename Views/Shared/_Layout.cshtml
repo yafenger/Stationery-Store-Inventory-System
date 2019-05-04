@@ -1,0 +1,259 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - ADProjectBase2</title>
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+    </environment>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <style>
+
+        body {
+            font-family: "Lato", sans-serif;
+        }
+
+        .sidenav {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 1;
+            top: 30px;
+            left: 0;
+            background-color: #4a556a;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+        }
+
+            .sidenav a {
+                padding: 8px 8px 8px 5px;
+                text-decoration: none;
+                font-size: 15px;
+                color: #cecece;
+                display: block;
+                transition: 0.3s;
+            }
+
+                .sidenav a:hover {
+                    color: #f1f1f1;
+                }
+
+            .sidenav .closebtn {
+                position: absolute;
+                top: 10px;
+                right: 25px;
+                font-size: 30px;
+                margin-left: 50px;
+            }
+
+        .navbar-inverse {
+            background: linear-gradient(to right, #84c3b2, #5b99af);
+            border-color: transparent;
+        }
+
+            .navbar-inverse .navbar-nav > li > a {
+                color: #fff;
+            }
+
+                .navbar-inverse .navbar-nav > li > a:hover,
+                .navbar-inverse .navbar-nav > li > a:focus {
+                    color: #ecf0f0;
+                    background-color: transparent;
+                }
+
+            .navbar-inverse .navbar-nav > .active > a,
+            .navbar-inverse .navbar-nav > .active > a:hover,
+            .navbar-inverse .navbar-nav > .active > a:focus {
+                color: #fff;
+                background-color: transparent;
+            }
+
+            .navbar-inverse .navbar-nav > .disabled > a,
+            .navbar-inverse .navbar-nav > .disabled > a:hover,
+            .navbar-inverse .navbar-nav > .disabled > a:focus {
+                color: #ecf0f0;
+                background-color: transparent;
+            }
+
+        .text {
+            color: #707272
+        }
+    </style>
+
+</head>
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="logo">
+                    <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand" style="padding:0"><img src="~/images/logo.png" height="44" width="44" class="logo" style="margin-top:0"></a>
+                </div>
+                @*<a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">ADProjectBase2</a>*@
+            </div>
+
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a asp-area="" asp-controller="Home" asp-action="Index"><span><img src="~/images/home.png" height="18" width="18">Home</span></a></li>
+                    @if (!HttpContextAccessor.HttpContext.User.IsInRole("Admin"))
+                    {
+                        <li><a asp-area="" asp-controller="Home" asp-action="About"><span><img src="~/images/information.png" height="18" width="18">Department Information</span></a></li>
+                    }
+                    @if (HttpContextAccessor.HttpContext.User.IsInRole("Admin"))
+                    {
+                        <li><a asp-area="" asp-controller="Account" asp-action="Register"><span><img src="~/images/information.png" height="18" width="18">Register</span></a></li>
+                    }
+                    <li><a asp-area="" asp-controller="Home" asp-action="Contact"><span><img src="~/images/contact.png" height="18" width="18">Contact</span></a></li>
+                </ul>
+                @await Html.PartialAsync("_LoginPartial")
+            </div>
+        </div>
+    </nav>
+    <span style="font-size:18px;cursor:pointer" class="text" onclick="openNav()">&#9776; <b>Menu</b></span>
+    <div class="container body-content">
+        @RenderBody()
+    </div>
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        @if (HttpContextAccessor.HttpContext.User.IsInRole("employee"))
+        {
+            <h4 style="color:#ffffff; text-align: left"><img src="~/images/user.png" height="20" width="20">&nbsp;Employee</h4>
+            <a asp-area="" asp-controller="Requests" asp-action="viewRequests"><img src="~/images/arrow.png" height="13" width="13">View Requests Within Department</a>
+            <a asp-area="" asp-controller="Requests" asp-action="Cart"><img src="~/images/arrow.png" height="13" width="13">Browse Catalogue</a>
+            <a asp-area="" asp-controller="Requestdetails" asp-action="raisedReqDetails"><img src="~/images/arrow.png" height="13" width="13">Update Request(s)</a>
+            <img src="~/images/miniIcon.png" height="76" width="100" />
+        }
+        else if (HttpContextAccessor.HttpContext.User.IsInRole("head"))
+        {
+            <h4 style="color:#ffffff; text-align: left"><img src="~/images/user.png" height="20" width="20">&nbsp;Dept Head</h4>
+            <a asp-area="" asp-controller="Requests" asp-action="Pending"><img src="~/images/arrow.png" height="13" width="13">Pending Requests</a> //ok
+            <a asp-area="" asp-controller="Departments" asp-action="AssignDeptRep"><img src="~/images/arrow.png" height="13" width="13">Assign Dept Rep</a> //ok
+            <a asp-area="" asp-controller="Delegations" asp-action="changeOrAddDelegation"><img src="~/images/arrow.png" height="13" width="13">Delegate Duty</a>//ok
+            <a asp-area="" asp-controller="Departments" asp-action="changeCollectionPoint"><img src="~/images/arrow.png" height="13" width="13">Change Collection Point</a>//ok
+            <img src="~/images/miniIcon.png" height="76" width="100" />
+        }
+
+        else if (HttpContextAccessor.HttpContext.User.IsInRole("supervisor"))
+        {
+            <h4 style="color:#ffffff; text-align: left"><img src="~/images/user.png" height="20" width="20">&nbsp;Supervisor</h4>
+            <a asp-area="" asp-controller="Agent" asp-action="Dashboard"><img src="~/images/arrow.png" height="13" width="13">Sales Report By Department</a>
+            <a asp-area="" asp-controller="AgentC" asp-action="Dashboard"><img src="~/images/arrow.png" height="13" width="13">Sales Report By Category</a>
+            <a asp-area="" asp-controller="DeptRequests" asp-action="chargebacklist"><img src="~/images/arrow.png" height="13" width="13">Chargeback Report</a>
+            <a asp-area="" asp-controller="AdjustmentVouchers" asp-action="Pending"><img src="~/images/arrow.png" height="13" width="13">Pending Adjustment Voucher</a>
+            <img src="~/images/miniIcon.png" height="76" width="100" />
+        }
+
+        else if (HttpContextAccessor.HttpContext.User.IsInRole("manager"))
+        {
+            <h4 style="color:#ffffff; text-align: left"><img src="~/images/user.png" height="20" width="20">&nbsp;Manager</h4>
+            <a asp-area="" asp-controller="Agent" asp-action="Dashboard"><img src="~/images/arrow.png" height="13" width="13">Sales Report By Department</a>
+            <a asp-area="" asp-controller="AgentC" asp-action="Dashboard"><img src="~/images/arrow.png" height="13" width="13">Sales Report By Category</a>
+            <a asp-area="" asp-controller="DeptRequests" asp-action="chargebacklist"><img src="~/images/arrow.png" height="13" width="13">Chargeback Report</a>
+            <a asp-area="" asp-controller="AdjustmentVouchers" asp-action="Pending"><img src="~/images/arrow.png" height="13" width="13">Pending Adjustment Voucher</a>
+            <img src="~/images/miniIcon.png" height="76" width="100" />
+        }
+
+        else if (HttpContextAccessor.HttpContext.User.IsInRole("clerk"))  //clerk
+        {
+            <h4 style="color:#ffffff; text-align: left"><img src="~/images/user.png" height="20" width="20">&nbsp;As Clerk</h4>
+            <a asp-area="" asp-controller="Items" asp-action="Index" style="font-size:14px"><img src="~/images/arrow.png" height="13" width="13">Update Catalogue</a>
+            <a asp-area="" asp-controller="AdjustmentVouchers" asp-action="Index" style="font-size:14px"><img src="~/images/arrow.png" height="13" width="13">Adjustment Voucher</a>
+            <a asp-area="" asp-controller="DeptRequests" asp-action="Index" style="font-size:14px"><img src="~/images/arrow.png" height="13" width="13">Consolidated List</a>
+            <a asp-area="" asp-controller="DeptRequests" asp-action="ConfirmedList" style="font-size:14px"><img src="~/images/arrow.png" height="13" width="13">Confirm Collection</a>
+            <a asp-area="" asp-controller="PODetails" asp-action="Index" style="font-size:14px"><img src="~/images/arrow.png" height="13" width="13">Raise Order to Supplier</a>
+
+
+
+            //*employee function
+            <h4 style="color:#ffffff; text-align: left"><img src="~/images/user.png" height="20" width="20">&nbsp;As Employee</h4>
+            <a asp-area="" asp-controller="Requests" asp-action="viewRequests" style="font-size:14px"><img src="~/images/arrow.png" height="13" width="13">View Requests within Department</a>
+            <a asp-area="" asp-controller="Requests" asp-action="Cart" style="font-size:14px"><img src="~/images/arrow.png" height="13" width="13">Browse Catalogue</a>
+            <a asp-area="" asp-controller="Requestdetails" asp-action="raisedReqDetails" style="font-size:14px"><img src="~/images/arrow.png" height="13" width="13">Update Request(s)</a>
+
+
+        }
+
+        else if (HttpContextAccessor.HttpContext.User.IsInRole("actinghead"))
+        {
+            <h4 style="color:#ffffff; text-align: left"><img src="~/images/user.png" height="20" width="20">&nbsp;Acting Head</h4>
+            //*head function
+            <a asp-area="" asp-controller="Requests" asp-action="Pending"><img src="~/images/arrow.png" height="13" width="13">Pending Requests</a>
+            <a asp-area="" asp-controller="Departments" asp-action="AssignDeptRep"><img src="~/images/arrow.png" height="13" width="13">Assign Dept Rep</a>
+
+            <a asp-area="" asp-controller="Departments" asp-action="changeCollectionPoint"><img src="~/images/arrow.png" height="13" width="13">Change Collection Point</a>
+            <img src="~/images/miniIcon.png" height="76" width="100" />
+            //*employee function
+        }
+
+        else if (HttpContextAccessor.HttpContext.User.IsInRole("representative"))
+        {
+            <h4 style="color:#ffffff; text-align: left"><img src="~/images/user.png" height="20" width="20">&nbsp;As Dept Rep</h4>
+            <a asp-area="" asp-controller="DeptRequests" asp-action="DeptList"><img src="~/images/arrow.png" height="13" width="13">Confirm Collection</a>
+            <a asp-area="" asp-controller="Departments" asp-action="changeCollectionPoint"><img src="~/images/arrow.png" height="13" width="13">Change Collection Point</a>
+
+            //*employee function
+
+            <h4 style="color:#ffffff; text-align: left"><img src="~/images/user.png" height="20" width="20">&nbsp;As Employee</h4>
+            <a asp-area="" asp-controller="Requests" asp-action="viewRequests" style="font-size:14px"><img src="~/images/arrow.png" height="13" width="13">View Requests within Department</a>
+            <a asp-area="" asp-controller="Requests" asp-action="Cart" style="font-size:14px"><img src="~/images/arrow.png" height="13" width="13">Browse Catalogue</a>
+            <a asp-area="" asp-controller="Requestdetails" asp-action="raisedReqDetails" style="font-size:14px"><img src="~/images/arrow.png" height="13" width="13">Update Request(s)</a>
+            <img src="~/images/miniIcon.png" height="76" width="100" />
+        }
+    </div>
+    <script>
+        function openNav() {
+            document.getElementById("mySidenav").style.width = "180px";
+        }
+
+        function closeNav() {
+            document.getElementById("mySidenav").style.width = "0";
+        }
+    </script>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; 2019 - SSIS Authorized By Team2</p>
+        </footer>
+    </div>
+    <environment include="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous"
+                integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
+        </script>
+        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                crossorigin="anonymous"
+                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
+        </script>
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+    </environment>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
+

@@ -1,0 +1,253 @@
+﻿@model ADProjectBase2.Models.RaiseOrderViewModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<head>
+
+    <style>
+
+        .button {
+            display: inline-block;
+            border-radius: 4px;
+            background-color: #72c8ba;
+            border: none;
+            color: #FFFFFF;
+            text-align: center;
+            font-size: 14px;
+            padding: 4px;
+            width: 200px;
+            transition: all 0.5s;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+            .button span {
+                cursor: pointer;
+                display: inline-block;
+                position: relative;
+                transition: 0.5s;
+                color:#fff;
+            }
+
+                .button span:after {
+                    content: '»';
+                    position: absolute;
+                    opacity: 0;
+                    top: 0;
+                    right: -20px;
+                    transition: 0.5s;
+                    color: #fff;
+                }
+
+            .button:hover span {
+                padding-right: 25px;
+                color: #fff;
+            }
+
+                .button:hover span:after {
+                    opacity: 1;
+                    right: 0;
+                    color: #fff;
+                }
+
+        .btn-primary {
+            color: #fff;
+            background-color: #6a9bc4;
+            border-color: transparent;
+            padding: 4px;
+            width: 150px;
+            border-radius: 15px;
+        }
+
+            .btn-primary:focus,
+            .btn-primary.focus {
+                color: #fff;
+                background-color: #87a3c1;
+                border-color: transparent;
+            }
+
+            .btn-primary:hover {
+                color: #fff;
+                background-color: #87a3c1;
+                border-color: transparent;
+            }
+
+
+        .searchStyle {
+            -webkit-box-shadow: 0 0 0 1000px #fff inset;
+            border-radius: 10px;
+            border: 1px solid #DBDBDB;
+            background: #DBDBDB;
+            padding-left: 10px;
+        }
+
+
+        h2 {
+            text-shadow: 7px 7px 7px #dad6d6;
+            color: #707272
+        }
+
+        .background {
+            background-image: url(../Images/BACKGROUND.jpg);
+            background-repeat: inherit;
+            background-size: 100%;
+            padding-top: 50px;
+            padding-bottom: 20px;
+        }
+
+
+        .style-three {
+            width: 80%;
+            margin: 0 auto;
+            border: 0;
+            height: 1px;
+            background: #333;
+            background-image: linear-gradient(to right, #ccc, #333, #ccc);
+        }
+    </style>
+
+
+</head>
+
+@if (Model.pods.Count > 0)
+{
+
+    <h2><b><span><img src="~/images/edit.png" height="30" width="30">&nbsp;Order Items</span></b></h2>
+    <hr class="style-three" />
+    <hr />
+    <form asp-controller="PODetails" asp-action="Index" method="post">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Item Name
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.pods[0].Item.Stock)
+                    </th>
+                    <th>
+                        Reorder Level
+                    </th>
+                    <th>
+                        Reorder Quantity
+                    </th>
+
+                    <th>
+                        Preorder Quantity
+                    </th>                  
+                    <th>
+                        Order Quantity
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var pod in Model.pods)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => pod.Item.ItemName)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => pod.Item.Stock)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => pod.Item.ReorderLvl)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => pod.Item.ReorderQty)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => Model.preorderNums[Model.pods.IndexOf(pod)])
+                        </td>
+
+                        <td>
+                            <input id="@Model.pods.IndexOf(pod)" onkeyup="value=value.replace(/[^0-9]/g,'')"
+                                   onpaste="value=value.replace(/[^0-9]/g,'')"
+                                   oncontextmenu="value=value.replace(/[^0-9]/g,'')"
+                                   onblur="myfunction(this)"
+                                   asp-for="@Model.orderNums.ToList()[Model.pods.IndexOf(pod)]" type="text" value="@pod.Item.ReorderQty" />
+                            <span id="@Model.pods.IndexOf(pod)+100" class="text-danger"></span>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <b><input type="submit" value="Confirm" class="button" /></b>
+
+        <br />
+    </form>
+}
+<br />
+<a asp-action="ViewOrderHistory" style="font-size:15px">View History</a>
+<h2><b><span><img src="~/images/edit.png" height="30" width="30">&nbsp;Item List</span></b></h2>
+<hr class="style-three" />
+<hr />
+<form asp-controller="PODetails" asp-action="Index" method="get" style="margin:0px;display:inline;">
+    Supplier&nbsp;&nbsp;<select asp-for="Supplier" asp-items="Model.supplierList" name="sup"></select>
+    <input type="submit" value="Select" class="btn-primary"/>
+</form>
+
+<form asp-controller="PODetails" asp-action="Index" method="get" style="margin:0px;display:inline;">
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    Item Name&nbsp;&nbsp;<input type="text" asp-for="SearchString" class="searchStyle" size="30"/>
+    <input type="submit" value="Search" class="btn-primary" />
+</form>
+<hr />
+<div class="pre-scrollable">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Item Name
+                </th>
+                <th>
+                    Category
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.items[0].Uom)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.items)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ItemName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Cat.CatName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Uom)
+                    </td>
+                    <td>
+                        <a asp-action="Index" asp-route-id="@item.ItemId" method="get" class="button" style="margin-top:-3px"><span><b>Add</b></span></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<script type="text/javascript">
+    function myfunction(txtbox) {
+        if (txtbox.value == "" || txtbox.value == 0) {
+            txtbox.value = 1;
+            var index = txtbox.id + "+100";
+            document.getElementById(index).innerText = "Order number cannot be empty or 0!";
+        }
+        else {
+            var index = txtbox.id + "+100";
+            document.getElementById(index).innerText = "";
+        }
+
+    }
+</script>
+
+

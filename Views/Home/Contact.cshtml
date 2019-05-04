@@ -1,0 +1,50 @@
+﻿@{
+    ViewData["Title"] = "Contact";
+}
+<h2><b><span><img src="~/images/edit.png" height="30" width="30">&nbsp;@ViewData["Title"]</span></b></h2>
+<hr class="style-three" />
+<hr />
+<h3>@ViewData["Message"]</h3>
+
+<head>
+
+    <style>
+        h2 {
+            text-shadow: 7px 7px 7px #dad6d6;
+            color: #707272
+        }
+
+        .background {
+            background-image: url(../Images/BACKGROUND.jpg);
+            background-repeat: inherit;
+            background-size: 100%;
+            padding-top: 50px;
+            padding-bottom: 20px;
+        }
+
+        .style-three {
+            width: 80%;
+            margin: 0 auto;
+            border: 0;
+            height: 1px;
+            background: #333;
+            background-image: linear-gradient(to right, #ccc, #333, #ccc);
+        }
+    </style>
+
+
+</head>
+<body class="background">
+    <address>
+        ISS<br />
+        National University of Singapore<br />
+        <abbr title="Phone">P:</abbr>
+       97689516
+    </address>
+
+    <address>
+        <strong>Support:</strong> <a href="mailto:ADProjectTeam2@gmail.com">ADProjectTeam2@gmail.com</a><br />
+        <strong>Marketing:</strong> <a href="mailto:MarketingTeam2@gmail.com">MarketingTeam2@example.com</a>
+    </address>
+
+</body>

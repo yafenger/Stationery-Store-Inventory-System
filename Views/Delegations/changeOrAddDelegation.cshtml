@@ -1,0 +1,237 @@
+﻿@model ADProjectBase2.Models.Delegation
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2><b><span><img src="~/images/edit.png" height="30" width="30">&nbsp;Delegate Duty</span></b></h2>
+<hr class="style-three" />
+<hr />
+<head>
+
+    <style>
+        table {
+            width: 80%;
+            text-align: left;
+            min-width: 300px;
+            overflow: hidden;
+        }
+
+        tr {
+            height: 30px;
+            padding-top: 10px
+        }
+
+        tbody {
+            height: 100px;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        th, td, tr, thead, tbody {
+            display: block;
+        }
+
+        td, th {
+            float: left;
+        }
+
+        .button {
+            display: inline-block;
+            border-radius: 4px;
+            background-color: #72c8ba;
+            border: none;
+            color: #FFFFFF;
+            text-align: center;
+            font-size: 14px;
+            padding: 4px;
+            width: 200px;
+            transition: all 0.5s;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+            .button span {
+                cursor: pointer;
+                display: inline-block;
+                position: relative;
+                transition: 0.5s;
+            }
+
+                .button span:after {
+                    content: '»';
+                    position: absolute;
+                    opacity: 0;
+                    top: 0;
+                    right: -20px;
+                    transition: 0.5s;
+                }
+
+            .button:hover span {
+                padding-right: 25px;
+                color: #fff;
+            }
+
+                .button:hover span:after {
+                    opacity: 1;
+                    right: 0;
+                }
+
+        .btn-primary {
+            color: #fff;
+            background-color: #6a9bc4;
+            border-color: transparent;
+            padding: 4px;
+            width: 150px;
+            border-radius: 15px;
+        }
+
+            .btn-primary:focus,
+            .btn-primary.focus {
+                color: #fff;
+                background-color: #87a3c1;
+                border-color: transparent;
+            }
+
+            .btn-primary:hover {
+                color: #fff;
+                background-color: #87a3c1;
+                border-color: transparent;
+            }
+
+
+        .searchStyle {
+            -webkit-box-shadow: 0 0 0 1000px #fff inset;
+            border-radius: 10px;
+            border: 1px solid #DBDBDB;
+            background: #DBDBDB;
+            padding-left: 10px;
+        }
+
+
+        h2 {
+            text-shadow: 7px 7px 7px #dad6d6;
+            color: #707272
+        }
+
+        .background {
+            background-image: url(../Images/BACKGROUND.jpg);
+            background-repeat: inherit;
+            background-size: 100%;
+            padding-top: 50px;
+            padding-bottom: 20px;
+        }
+
+
+        .style-three {
+            width: 80%;
+            margin: 0 auto;
+            border: 0;
+            height: 1px;
+            background: #333;
+            background-image: linear-gradient(to right, #ccc, #333, #ccc);
+        }
+    </style>
+
+</head>
+
+<body  class="background">
+
+    <form asp-action="changeOrAddDelegation" method="get">
+        <div class="form-actions no-color">
+            <p>
+                <label>Find Employee</label>&nbsp;&nbsp;
+                <input type="text" name="SearchString" value="@ViewData["currentFilter"]" class="searchStyle"  size="70"/>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <button class="btn-primary" type="submit"><i class="fas fa-search"></i>&nbsp;&nbsp;Search</button>
+            </p>
+        </div>
+    </form>
+
+    <div class="row">
+        <div class="col-md-6">
+            <form asp-action="changeOrAddDelegation">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="DelegationId" />
+                <input type="hidden" asp-for="DeptId" />
+
+                <div class="form-group">
+                    <div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <i class="far fa-user"></i>&nbsp;&nbsp;<label>Employee</label>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in ViewData["User"] as IList<MyUser>)
+                                {
+                                    <tr>
+                                        <td>
+                                            <label>
+                                                <input type="radio" value="@item.UserId" asp-for="UserId" />@item.Name
+                                            </label>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                @*yafeng*@
+                <span asp-validation-for="@Model.UserId" class="text-danger"></span>
+                <br />
+                <div class="form-row">
+                    <div class="form-group col-md-5">
+                        <i class="far fa-calendar-alt"></i>
+                        <label asp-for="Startdate" class="control-label"></label>
+                        <input asp-for="Startdate" placeholder="dd/MMM/YYYY" type="date" class="form-control" style="height:20px;width:170px" />
+                        <span asp-validation-for="Startdate" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-5">
+                        <i class="far fa-calendar-alt"></i>
+                        <label asp-for="Enddate" class="control-label"></label>
+                        <input asp-for="Enddate" type="date" class="form-control" style="height:20px;width:170px" />
+                        <span asp-validation-for="Enddate" class="text-danger"></span>
+                    </div>
+                </div>
+                <br /><br />
+
+                @if ((ViewData["User"] as IList<MyUser>).Count > 0)
+                {
+                    <div class="form-row">
+                        <div class="form-group col-md-5">
+                            <button class="button" name="SubmitButton" value="Submit" onclick="return confirm('Are you sure to delegate duty?')" type="submit" style="float:left"><span><b>Submit</b></span></button>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        @if (ViewData["delegation"] != null)
+                        {
+
+                            <div class="form-group col-md-5">
+                                <button type="submit" name="SubmitButton" value="Cancel" onclick="return confirm('Are you sure to cancel delegation?')" class="button" style="background-color:#88a1ac;width:300px"  ><span><b>Cancel Exisiting Delegation</b></span></button>
+                            </div>
+
+                        }
+                    </div>
+                }
+            </form>
+        </div>
+    </div>
+
+
+
+
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }
+
+</body>
+
+

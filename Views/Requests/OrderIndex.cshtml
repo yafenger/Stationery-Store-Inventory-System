@@ -1,0 +1,165 @@
+﻿@model IEnumerable<ADProjectBase2.Models.RequestDetails>
+
+
+@{
+    ViewData["Title"] = "OrderIndex";
+}
+
+<h2>Details</h2>
+<head>
+
+    <style>
+
+        .button {
+            display: inline-block;
+            border-radius: 4px;
+            background-color: #72c8ba;
+            border: none;
+            color: #FFFFFF;
+            text-align: center;
+            font-size: 16px;
+            padding: 6px;
+            width: 120px;
+            transition: all 0.5s;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+            .button span {
+                cursor: pointer;
+                display: inline-block;
+                position: relative;
+                transition: 0.5s;
+            }
+
+                .button span:after {
+                    content: '»';
+                    position: absolute;
+                    opacity: 0;
+                    top: 0;
+                    right: -20px;
+                    transition: 0.5s;
+                }
+
+            .button:hover span {
+                padding-right: 25px;
+            }
+
+                .button:hover span:after {
+                    opacity: 1;
+                    right: 0;
+                }
+
+
+        .cancleBtn {
+            display: inline-block;
+            border-radius: 4px;
+            background-color: #6a85b6;
+            border: none;
+            color: #FFFFFF;
+            text-align: center;
+            font-size: 16px;
+            padding: 6px;
+            width: 120px;
+            transition: all 0.5s;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+            .cancleBtn span {
+                cursor: pointer;
+                display: inline-block;
+                position: relative;
+                transition: 0.5s;
+            }
+
+                .cancleBtn span:after {
+                    content: '»';
+                    position: absolute;
+                    opacity: 0;
+                    top: 0;
+                    right: -20px;
+                    transition: 0.5s;
+                }
+
+            .cancleBtn:hover span {
+                padding-right: 25px;
+            }
+
+                .cancleBtn:hover span:after {
+                    opacity: 1;
+                    right: 0;
+                }
+
+        h2 {
+            text-shadow: 7px 7px 7px #dad6d6;
+            color: #707272
+        }
+
+        .background {
+            background-image: url(../Images/BACKGROUND.jpg);
+            background-repeat: inherit;
+            background-size: 100%;
+            padding-top: 50px;
+            padding-bottom: 20px;
+        }
+
+
+        .text1 {
+            font-size: 12px;
+        }
+
+        .style-three {
+            width: 80%;
+            margin: 0 auto;
+            border: 0;
+            height: 1px;
+            background: #333;
+            background-image: linear-gradient(to right, #ccc, #333, #ccc);
+        }
+    </style>
+    </head>
+
+    <p>
+        <a asp-action="AddItems" asp-route-id="@ViewBag.cid">Add Items</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>                  
+                    Quantity
+                </th>
+                <th>                   
+                    Unit
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Item.ItemName)
+                </th>               
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RequestedQty)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Item.Uom)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Item.ItemName)
+                    </td>                  
+                    <td>
+                        @if (item.Request.UserId == ViewBag.LoginId)
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.ReqDetailsId">Edit</a>
+                            <a asp-action="Delete" asp-route-id="@item.ReqDetailsId"> | Delete</a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+   

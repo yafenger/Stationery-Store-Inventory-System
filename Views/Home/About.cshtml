@@ -1,0 +1,93 @@
+﻿@model ADProjectBase2.Models.Department
+
+
+@{
+    ViewData["Title"] = "Department Information";
+}
+
+<h2><b><span><img src="~/images/edit.png" height="30" width="30">&nbsp;Department Information</span></b></h2>
+<hr class="style-three"/>
+<hr />
+
+<head>
+
+    <style>
+        h2 {
+            text-shadow: 7px 7px 7px #dad6d6;
+            color: #707272
+        }
+
+        .background {
+            background-image: url(../Images/BACKGROUND.jpg);
+            background-repeat: inherit;
+            background-size: 100%;
+            padding-top: 50px;
+            padding-bottom: 20px;
+        }
+
+        .style-three {
+            width: 80%;
+            margin: 0 auto;
+            border: 0;
+            height: 1px;
+            background: #333;
+            background-image: linear-gradient(to right, #ccc, #333, #ccc);
+        }
+    </style>
+
+
+</head>
+
+<body class="background">
+    @{
+        var dep = ViewData["dep"] as Department;
+        var cp = ViewData["cp"] as CollectionPoint;
+        var rep = ViewData["rep"] as MyUser;
+        var Head = ViewData["Head"] as MyUser;
+        var actingHead = ViewData["actingHead"] as MyUser;
+
+        <div class="row">
+            <div class="col-md-8">
+                <form asp-action="About">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+
+                    <div>
+                        <label class="control-label">Department: </label>&nbsp;@dep.Name
+                    </div>
+
+
+                    <div>
+                        <label class="control-label">Department Head: </label>&nbsp;@Head.Name
+                    </div>
+                    @*yafeng*@
+                  
+                        <div>
+                            <label class="control-label">Department Acting Head: </label>&nbsp;@actingHead.Name
+                        </div>
+                    
+
+                    <div>
+                        <label class="control-label">Department Representative: </label>&nbsp;@rep.Name
+                    </div>
+
+                    <div>
+                        <label class="control-label">Collection Point: </label>&nbsp;@cp.Name
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+    }
+
+</body>
+
+
+
+
+
+
+
+
+

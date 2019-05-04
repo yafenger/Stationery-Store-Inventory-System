@@ -1,0 +1,223 @@
+﻿@model ADProjectBase2.Models.Department
+
+@{
+    ViewData["Title"] = "changeCollectionPoint";
+}
+<h2><b><span><img src="~/images/edit.png" height="30" width="30">&nbsp;Set/Change Collection Point</span></b></h2>
+<hr class="style-three" />
+<hr />
+
+<head>
+
+    <style>
+
+        .button {
+            display: inline-block;
+            border-radius: 4px;
+            background-color: #72c8ba;
+            border: none;
+            color: #FFFFFF;
+            text-align: center;
+            font-size: 14px;
+            padding: 4px;
+            width: 200px;
+            transition: all 0.5s;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+            .button span {
+                cursor: pointer;
+                display: inline-block;
+                position: relative;
+                transition: 0.5s;
+            }
+
+                .button span:after {
+                    content: '»';
+                    position: absolute;
+                    opacity: 0;
+                    top: 0;
+                    right: -20px;
+                    transition: 0.5s;
+                }
+
+            .button:hover span {
+                padding-right: 25px;
+            }
+
+                .button:hover span:after {
+                    opacity: 1;
+                    right: 0;
+                }
+
+        h2 {
+            text-shadow: 7px 7px 7px #dad6d6;
+            color: #707272
+        }
+
+        .background {
+            background-image: url(../Images/BACKGROUND.jpg);
+            background-repeat: inherit;
+            background-size: 100%;
+            padding-top: 50px;
+            padding-bottom: 20px;
+        }
+
+
+        .style-three {
+            width: 80%;
+            margin: 0 auto;
+            border: 0;
+            height: 1px;
+            background: #333;
+            background-image: linear-gradient(to right, #ccc, #333, #ccc);
+        }
+    </style>
+
+
+</head>
+
+<body class="background">
+    <div class="row">
+        <div class="col-md-6">
+            <form asp-action="changeCollectionPoint">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="DeptId" />
+                <input type="hidden" asp-for="Name" />
+                <input type="hidden" asp-for="DeptRep" />
+
+                <div class="form-group">
+                    <div>
+                        <i class="fas fa-map-marked-alt"></i>&nbsp;&nbsp;<label>Location</label>
+                        <br /><br />
+                    </div>
+                    <div>
+                        @foreach (var cpn in ViewData["Cpid"] as IList<CollectionPoint>)
+                        {
+                            <label>
+                                <input asp-for="Cpid" value="@cpn.Cpid" type="radio" onclick="img(@cpn.Cpid)" />  @cpn.Name
+                            </label>
+                            <br />
+                        }
+                    </div>
+                </div>
+                <br />
+                <br />
+
+                <span asp-validation-for="@Model.Cpid" class="text-danger"></span>
+                <div class="form-row">
+                    <div class="form-group col-md-5">
+                        <button class="button" type="reset" style="background-color:#88a1ac"><span><b>Cancel</b></span></button>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-5">
+                        <button class="button" onclick="return confirm('Are you sure to submit?')" type="submit" style="position:relative; left:40px; top: 0px;"><span><b>Confirm</b></span></button>
+                    </div>
+                </div>
+            </form>
+            <br />
+
+        </div>
+        <div class="col-md-6">
+            <div>
+                <img src="~/images/schools1.jpg" id="myimg1" hidden="hidden" style="height:150px;width:300px"/>
+                <img src="~/images/schools2.jpg" id="myimg2" hidden="hidden" style="height:150px;width:300px"/>
+                <img src="~/images/schools3.jpg" id="myimg3" hidden="hidden" style="height:150px;width:300px"/>
+                <img src="~/images/schools4.jpg" id="myimg4" hidden="hidden" style="height:150px;width:300px"/>
+                <img src="~/images/school5.jpg" id="myimg5" hidden="hidden" style="height:150px;width:300px"/>
+                <img src="~/images/school6.jpg" id="myimg6" hidden="hidden" style="height:150px;width:300px"/>
+                <br />
+            </div>
+            <div>
+                <div>
+                    <br />
+                </div>
+                <p id="details"></p>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script>
+        function img(x) {
+            switch (x) {
+                case 1:
+                    document.getElementById('myimg1').style.display = 'block';
+                    document.getElementById('myimg2').style.display = 'none';
+                    document.getElementById('myimg3').style.display = 'none';
+                    document.getElementById('myimg4').style.display = 'none';
+                    document.getElementById('myimg5').style.display = 'none';
+                    document.getElementById('myimg6').style.display = 'none';
+                    document.getElementById('details').innerText = "29 Heng Mui Keng Terrace, Block D Singapore 219620";
+                    break;
+                case 2:
+                    document.getElementById('myimg1').style.display = 'none';
+                    document.getElementById('myimg2').style.display = 'block';
+                    document.getElementById('myimg3').style.display = 'none';
+                    document.getElementById('myimg4').style.display = 'none';
+                    document.getElementById('myimg5').style.display = 'none';
+                    document.getElementById('myimg6').style.display = 'none';
+                    document.getElementById('details').innerText = "11 Heng Mui Keng Terrace, Block A Singapore 218324";
+                    break;
+                case 3:
+                    document.getElementById('myimg1').style.display = 'none';
+                    document.getElementById('myimg2').style.display = 'none';
+                    document.getElementById('myimg3').style.display = 'block';
+                    document.getElementById('myimg4').style.display = 'none';
+                    document.getElementById('myimg5').style.display = 'none';
+                    document.getElementById('myimg6').style.display = 'none';
+                    document.getElementById('details').innerText = "23 West Coast Cre, Block A Singapore 233242";
+                    break;
+                case 4:
+                    document.getElementById('myimg1').style.display = 'none';
+                    document.getElementById('myimg2').style.display = 'none';
+                    document.getElementById('myimg3').style.display = 'none';
+                    document.getElementById('myimg4').style.display = 'block';
+                    document.getElementById('myimg5').style.display = 'none';
+                    document.getElementById('myimg6').style.display = 'none';
+                    document.getElementById('details').innerText = "27 Research Link, Block A Singapore 217320";
+                    break;
+                case 5:
+                    document.getElementById('myimg1').style.display = 'none';
+                    document.getElementById('myimg2').style.display = 'none';
+                    document.getElementById('myimg3').style.display = 'none';
+                    document.getElementById('myimg4').style.display = 'none';
+                    document.getElementById('myimg5').style.display = 'block';
+                    document.getElementById('myimg6').style.display = 'none';
+                    document.getElementById('details').innerText = "8 Kent Ringe, Block B Singapore 201233";
+                    break;
+                case 6:
+                    document.getElementById('myimg1').style.display = 'none';
+                    document.getElementById('myimg2').style.display = 'none';
+                    document.getElementById('myimg3').style.display = 'none';
+                    document.getElementById('myimg4').style.display = 'none';
+                    document.getElementById('myimg5').style.display = 'none';
+                    document.getElementById('myimg6').style.display = 'block';
+                    document.getElementById('details').innerText = "7 Shenton Way, Block B Singapore 213943";
+                    break;
+                default:
+                    document.getElementById('myimg1').style.display = 'none';
+                    document.getElementById('myimg2').style.display = 'none';
+                    document.getElementById('myimg3').style.display = 'none';
+                    document.getElementById('myimg4').style.display = 'none';
+                    document.getElementById('myimg5').style.display = 'none';
+                    document.getElementById('myimg6').style.display = 'none';
+                    document.getElementById('details').innerText = "";
+            }
+        }
+    </script>
+
+
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }
+
+</body>
+
+
+
+

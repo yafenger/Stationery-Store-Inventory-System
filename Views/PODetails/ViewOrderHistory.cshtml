@@ -1,0 +1,211 @@
+﻿@model ADProjectBase2.Models.POHistoryModel
+
+@{
+    ViewData["Title"] = "ViewOrderHistory";
+}
+
+<head>
+
+    <style>
+
+        .button {
+            display: inline-block;
+            border-radius: 4px;
+            background-color: #72c8ba;
+            border: none;
+            color: #FFFFFF;
+            text-align: center;
+            font-size: 14px;
+            padding: 4px;
+            width: 200px;
+            transition: all 0.5s;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+            .button span {
+                cursor: pointer;
+                display: inline-block;
+                position: relative;
+                transition: 0.5s;
+                color: #fff;
+            }
+
+                .button span:after {
+                    content: '»';
+                    position: absolute;
+                    opacity: 0;
+                    top: 0;
+                    right: -20px;
+                    transition: 0.5s;
+                    color: #fff;
+                }
+
+            .button:hover span {
+                padding-right: 25px;
+                color: #fff;
+            }
+
+                .button:hover span:after {
+                    opacity: 1;
+                    right: 0;
+                    color: #fff;
+                }
+
+        .btn-primary {
+            color: #fff;
+            background-color: #6a9bc4;
+            border-color: transparent;
+            padding: 4px;
+            width: 150px;
+            border-radius: 15px;
+        }
+
+            .btn-primary:focus,
+            .btn-primary.focus {
+                color: #fff;
+                background-color: #87a3c1;
+                border-color: transparent;
+            }
+
+            .btn-primary:hover {
+                color: #fff;
+                background-color: #87a3c1;
+                border-color: transparent;
+            }
+
+
+        .searchStyle {
+            -webkit-box-shadow: 0 0 0 1000px #fff inset;
+            border-radius: 10px;
+            border: 1px solid #DBDBDB;
+            background: #DBDBDB;
+            padding-left: 10px;
+        }
+
+
+        h2 {
+            text-shadow: 7px 7px 7px #dad6d6;
+            color: #707272
+        }
+
+        .background {
+            background-image: url(../Images/BACKGROUND.jpg);
+            background-repeat: inherit;
+            background-size: 100%;
+            padding-top: 50px;
+            padding-bottom: 20px;
+        }
+
+
+        .style-three {
+            width: 80%;
+            margin: 0 auto;
+            border: 0;
+            height: 1px;
+            background: #333;
+            background-image: linear-gradient(to right, #ccc, #333, #ccc);
+        }
+    </style>
+
+
+</head>
+
+<h2><b><span><img src="~/images/edit.png" height="30" width="30">&nbsp;View Order History</span></b></h2>
+<hr class="style-three" />
+<hr />
+
+
+<form asp-controller="PODetails" asp-action="ViewOrderHistory" method="get">
+    Start Time:&nbsp&nbsp&nbsp&nbsp <select asp-for="sy" asp-items="Model.startYear" name="sy"></select>&nbsp&nbsp&nbsp&nbsp<select asp-for="sm" asp-items="Model.startMonth" name="sm"></select>&nbsp&nbsp&nbsp&nbsp
+    End Time: &nbsp&nbsp&nbsp&nbsp<select asp-for="ey" asp-items="Model.endYear" name="ey"></select>&nbsp&nbsp&nbsp&nbsp<select asp-for="em" asp-items="Model.endMonth" name="em"></select>
+    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<b><input type="submit" value="Select" class="btn-primary" /></b>
+</form>
+<hr />
+<div class="pre-scrollable">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Order Number
+                </th>
+                <th>
+                    Supplier
+                </th>
+                <th>
+                    Total Price
+                </th>
+                <th>
+                    Order Time
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.POList)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PoId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Supplier.SupplierName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.pricelist[Model.POList.IndexOf(item)])
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PurchaseDate.Date)
+                    </td>
+                    <td>
+                        <a asp-action="ViewOrderHistory" asp-route-id="@item.PoId" method="get" class="button" style="margin-top:-3px"><span><b>Details</b></span></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@if (Model.podList.Count != 0)
+{
+
+    <h2><b><span><img src="~/images/edit.png" height="30" width="30">&nbsp;Order Details</span></b></h2>
+    <hr class="style-three" />
+    <hr />
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Item ID
+                </th>
+                <th>
+                    Item
+                </th>
+                <th>
+                    Quantity
+                </th>
+                <th>
+                    Unit Price
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.podList)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Item.ItemId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Item.ItemName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.QtyOrdered)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Item.Unitprice)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+

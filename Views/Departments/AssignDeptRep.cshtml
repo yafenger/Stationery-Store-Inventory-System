@@ -1,0 +1,199 @@
+﻿@model ADProjectBase2.Models.Department
+
+@{
+    ViewData["Title"] = "AssignDeptRep";
+}
+
+<h2><b><span><img src="~/images/edit.png" height="30" width="30">&nbsp;Assign Department Representative</span></b></h2>
+<hr class="style-three" />
+<hr />
+
+<head>
+    <style>
+
+        .box {
+            width: 330px;
+            height: 100px;
+            border: 1px solid #ccc;
+        }
+
+        .scroll-box {
+            width: 350px;
+            height: 100px;
+            overflow-y: scroll;
+        }
+
+        ul li {
+            list-style-type: none;
+        }
+
+        .button {
+            display: inline-block;
+            border-radius: 4px;
+            background-color: #72c8ba;
+            border: none;
+            color: #FFFFFF;
+            text-align: center;
+            font-size: 14px;
+            padding: 4px;
+            width: 200px;
+            transition: all 0.5s;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+            .button span {
+                cursor: pointer;
+                display: inline-block;
+                position: relative;
+                transition: 0.5s;
+            }
+
+                .button span:after {
+                    content: '»';
+                    position: absolute;
+                    opacity: 0;
+                    top: 0;
+                    right: -20px;
+                    transition: 0.5s;
+                }
+
+            .button:hover span {
+                padding-right: 25px;
+                color: #fff;
+            }
+
+                .button:hover span:after {
+                    opacity: 1;
+                    right: 0;
+                }
+
+        .btn-primary {
+            color: #fff;
+            background-color: #6a9bc4;
+            border-color: transparent;
+            padding: 4px;
+            width: 150px;
+            border-radius:15px;
+        }
+
+            .btn-primary:focus,
+            .btn-primary.focus {
+                color: #fff;
+                background-color: #87a3c1;
+                border-color: transparent;
+            }
+
+            .btn-primary:hover {
+                color: #fff;
+                background-color: #87a3c1;
+                border-color: transparent;
+            }
+
+        .searchStyle {
+            -webkit-box-shadow: 0 0 0 1000px #fff inset;
+            border-radius: 10px;
+            border: 1px solid #DBDBDB;
+            background: #DBDBDB;
+            padding-left: 10px;
+        }
+
+
+        h2 {
+            text-shadow: 7px 7px 7px #dad6d6;
+            color: #707272
+        }
+
+        .background {
+            background-image: url(../Images/BACKGROUND.jpg);
+            background-repeat: inherit;
+            background-size: 100%;
+            padding-top: 50px;
+            padding-bottom: 20px;
+        }
+
+        .style-three {
+            width: 80%;
+            margin: 0 auto;
+            border: 0;
+            height: 1px;
+            background: #333;
+            background-image: linear-gradient(to right, #ccc, #333, #ccc);
+        }
+    </style>
+
+</head>
+
+<body class="background">
+    <form asp-action="AssignDeptRep" method="get">
+        <div class="form-actions no-color">
+            <p>
+                <label>Find by Name</label>&nbsp;&nbsp;
+                <input type="text" name="SearchString" value="@ViewData["currentFilter"]" size="70" class="searchStyle"/>               
+                <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i>&nbsp;&nbsp;Search</button>
+            </p>
+        </div>
+    </form>
+
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="AssignDeptRep">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="DeptId" />
+                <input type="hidden" asp-for="Name" />
+                <input type="hidden" asp-for="Cpid" />
+
+                <div class="form-group">
+                    <div>
+                        <i class="far fa-user"></i>&nbsp;&nbsp;<label>Employee</label>
+                    </div>
+                    <div class="box">
+                        <div class="scroll-box">
+                            <ul class="scroll">
+                                @foreach (var item in ViewData["User"] as IList<MyUser>)
+                                {
+                                    <li>
+                                        <label>
+                                            <input type="radio" value="@item.UserId" asp-for="DeptRep" />&nbsp;&nbsp;@item.Name
+                                        </label>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                @*yafeng*@
+                <span asp-validation-for="@Model.DeptRep" class="text-danger"></span>
+
+                @if ((ViewData["User"] as IList<MyUser>).Count > 0)
+                {
+                    <div class="form-row">
+                        <div class="form-group col-md-5">
+                            <button class="button" style="background-color:#88a1ac" type="reset" ><span><b>Cancel</b></span></button>
+                   
+                        </div>
+                    </div>
+                    <div class="form-row"> 
+                        <div class="form-group col-md-5">
+                            <button class="button" onclick="return confirm('Are you sure to submit?')" type="submit"  style="position:relative; left:120px; top: 0px;">&nbsp;&nbsp;<span><b>Confirm</b></span></button>
+                        </div>
+                    </div>
+                }
+            </form>
+        </div>
+    </div>
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }
+
+</body>
+
+
+
+
+
+
+
+
