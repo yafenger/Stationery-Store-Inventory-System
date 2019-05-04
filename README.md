@@ -21,3 +21,6 @@ Authors:
 7.Zhou Haiming
 8.Tan Qiyang
 9.Wu Di
+
+
+database.bak:backup file of the project database
