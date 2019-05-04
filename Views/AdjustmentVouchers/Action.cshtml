@@ -1,0 +1,188 @@
+﻿@model ADProjectBase2.Models.AdjustmentVoucher
+@{
+    ViewData["Title"] = "Action";
+}
+
+<head>
+    <style>
+
+
+        .button {
+            display: inline-block;
+            border-radius: 4px;
+            background-color: #72c8ba;
+            border: none;
+            color: #FFFFFF;
+            text-align: center;
+            font-size: 14px;
+            padding: 4px;
+            width: 200px;
+            transition: all 0.5s;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+            .button span {
+                cursor: pointer;
+                display: inline-block;
+                position: relative;
+                transition: 0.5s;
+            }
+
+                .button span:after {
+                    content: '»';
+                    position: absolute;
+                    opacity: 0;
+                    top: 0;
+                    right: -20px;
+                    transition: 0.5s;
+                }
+
+            .button:hover span {
+                padding-right: 25px;
+                color: #fff;
+            }
+
+                .button:hover span:after {
+                    opacity: 1;
+                    right: 0;
+                }
+
+        .btn-primary {
+            color: #fff;
+            background-color: #6a9bc4;
+            border-color: transparent;
+            padding: 4px;
+            width: 150px;
+            border-radius: 15px;
+        }
+
+            .btn-primary:focus,
+            .btn-primary.focus {
+                color: #fff;
+                background-color: #87a3c1;
+                border-color: transparent;
+            }
+
+            .btn-primary:hover {
+                color: #fff;
+                background-color: #87a3c1;
+                border-color: transparent;
+            }
+
+
+        .searchStyle {
+            -webkit-box-shadow: 0 0 0 1000px #fff inset;
+            border-radius: 10px;
+            border: 1px solid #DBDBDB;
+            background: #DBDBDB;
+            padding-left: 10px;
+        }
+
+
+        h2 {
+            text-shadow: 7px 7px 7px #dad6d6;
+            color: #707272
+        }
+
+        .background {
+            background-image: url(../Images/BACKGROUND.jpg);
+            background-repeat: inherit;
+            background-size: 100%;
+            padding-top: 50px;
+            padding-bottom: 20px;
+        }
+
+
+        .style-three {
+            width: 80%;
+            margin: 0 auto;
+            border: 0;
+            height: 1px;
+            background: #333;
+            background-image: linear-gradient(to right, #ccc, #333, #ccc);
+        }
+    </style>
+
+</head>
+<h2><b><span><img src="~/images/edit.png" height="30" width="30">&nbsp;Adjustment Voucher ID : @Html.DisplayFor(model => model.AdjustId)</span></b></h2>
+<hr class="style-three" />
+<hr />
+<body>
+    <h5>Submitted by : @Html.DisplayFor(model => model.User.Name)</h5>
+    <hr />
+    <table border="0" width="600">
+        <thead>
+            <tr>
+                <th>
+                    Item Name
+                </th>
+                <th>
+                    Quantity
+                </th>
+                <th>
+                    Remarks
+                </th>
+                <th>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in ViewData["avdlist"] as IList<AVDetails>)
+            {
+                <tr>
+                    <td>
+                        @item.Item.ItemName
+                    </td>
+                    <td>
+                        @item.Operations @item.Qtychanged
+                    </td>
+                    <td>
+                        @item.Remarks
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <hr />
+    <div>
+        <h4>Total Amount: $ @ViewBag.totalAmt</h4>
+    </div>
+    @if (ViewData["StockCheck"].ToString().ToUpper() == "FALSE")
+    {
+        <label style="color:red">You cannot approve due to the stock is not enough.</label>
+
+    }
+    <br />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Action">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="AdjustId" />
+                <input type="hidden" asp-for="UserId" />
+                <div class="form-row">
+
+                    <div class="form-group col-md-5">
+                        <button type="submit" name="SubmitButton" value="Rejected" onclick="return confirm('Confirm to proceed with rejection?')" class="button" style="background-color:#bb6666"><span><b>Reject</b></span></button>
+                    </div>
+                </div>
+                <div class="form-row">
+                    @if (ViewData["StockCheck"].ToString().ToUpper() == "TRUE")
+                    {
+                        <div class="form-group col-md-5">
+                            <button class="button" name="SubmitButton" value="Approved" onclick="return confirm('Confirm to proceed with approval?')" type="submit" style="margin-left:120px"><span><b>Approve</b></span></button>
+                        </div>
+                    }
+
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }
+</body>

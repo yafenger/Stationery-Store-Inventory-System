@@ -1,0 +1,145 @@
+﻿@using System.Collections.Generic
+@using System.Linq
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Http.Authentication
+@model LoginViewModel
+@inject SignInManager<ApplicationUser> SignInManager
+
+@{
+    ViewData["Title"] = "Log in";
+}
+@{
+    Layout = null;
+}
+
+
+
+<head>
+    <style>
+        .background2 {
+            background-image: url(../Images/logobackground.png), url(../Images/logback1.png);
+            background-size: 50%,80%;
+            background-repeat: no-repeat;
+            background-position: center;
+            padding-top: 40%;
+            background-position: center,bottom;
+        }
+
+        .text {
+            text-align: center;
+            font-size: 20px;
+        }
+
+        .divForm {
+            position: absolute;
+            width: 30%;
+            height: 20%;
+            text-align: center;
+            top: 50%;
+            left: 50%;
+            margin-top: -13%;
+            margin-left: -14%;
+        }
+
+        .button {
+            display: inline-block;
+            border-radius: 4px;
+            background-color: #72c8ba;
+            border: none;
+            color: #FFFFFF;
+            text-align: center;
+            font-size: 12px;
+            padding: 3px;
+            width: 200px;
+            transition: all 0.5s;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+            .button span {
+                cursor: pointer;
+                display: inline-block;
+                position: relative;
+                transition: 0.5s;
+            }
+
+                .button span:after {
+                    content: '»';
+                    position: absolute;
+                    opacity: 0;
+                    top: 0;
+                    right: -20px;
+                    transition: 0.5s;
+                }
+
+            .button:hover span {
+                padding-right: 25px;
+            }
+
+                .button:hover span:after {
+                    opacity: 1;
+                    right: 0;
+                }
+
+
+        .searchStyle {
+            -webkit-box-shadow: 0 0 0 1000px #fff inset;
+            border-radius: 10px;
+            border: 0px solid #DBDBDB;
+            background: #DBDBDB;
+            padding-left: 10px;
+        }
+    </style>
+</head>
+
+<body class="background2">
+    <div>
+        <div class="divForm">
+            <div>
+                <form asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
+                    <br />
+                    <br />
+                    <br />
+                    <h4 style="text-align:center;color:#fff"><b>LOG IN</b></h4>
+                    <h6 style="text-align:center;color:#fff">Use a local account to log in.</h6>
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div>
+                        <div>
+                            <label asp-for="Email" style="color:#fff"></label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <input asp-for="Email" class="searchStyle" />
+                        </div>
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <br />
+                    <div>
+                        <label style="vertical-align:middle;display:inline-block; color:#fff" asp-for="Password"></label>
+                        <input asp-for="Password" class="searchStyle" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <label style="color:#fff" asp-for="RememberMe">
+                                <input style="color:#fff" asp-for="RememberMe" />
+                                @Html.DisplayNameFor(m => m.RememberMe)
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">                    
+                        <button class="button" type="submit"><span><b>Log in</b></span></button>
+
+                    </div>
+                    <div class="form-group">                       
+                        <p>
+                            <a asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" style="color:#fff">Register as a new user?</a>
+                        </p>
+                    </div>
+                </form>
+            </div>          
+        </div>
+    </div>
+
+    @section Scripts {
+        @await Html.PartialAsync("_ValidationScriptsPartial")
+    }
+
+</body>

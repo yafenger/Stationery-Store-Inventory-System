@@ -1,0 +1,169 @@
+﻿@model IEnumerable<ADProjectBase2.Models.newAVModel>
+@{
+    ViewData["Title"] = "Index";
+}
+<head>
+
+    <style>
+
+        .button {
+            display: inline-block;
+            border-radius: 4px;
+            background-color: #72c8ba;
+            border: none;
+            color: #FFFFFF;
+            text-align: center;
+            font-size: 14px;
+            padding: 4px;
+            width: 150px;
+            transition: all 0.5s;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+            .button span {
+                cursor: pointer;
+                display: inline-block;
+                position: relative;
+                transition: 0.5s;
+            }
+
+                .button span:after {
+                    content: '»';
+                    position: absolute;
+                    opacity: 0;
+                    top: 0;
+                    right: -20px;
+                    transition: 0.5s;
+                }
+
+            .button:hover span {
+                padding-right: 25px;
+                color: #fff;
+            }
+
+                .button:hover span:after {
+                    opacity: 1;
+                    right: 0;
+                }
+
+
+        h2 {
+            text-shadow: 7px 7px 7px #dad6d6;
+            color: #707272
+        }
+
+        .background {
+            background-image: url(../Images/BACKGROUND.jpg);
+            background-repeat: inherit;
+            background-size: 100%;
+            padding-top: 50px;
+            padding-bottom: 20px;
+        }
+
+
+        .style-three {
+            width: 80%;
+            margin: 0 auto;
+            border: 0;
+            height: 1px;
+            background: #333;
+            background-image: linear-gradient(to right, #ccc, #333, #ccc);
+        }
+    </style>
+
+
+</head>
+
+<h2><b><span><img src="~/images/edit.png" height="30" width="30">&nbsp;Adjustment Voucher</span></b></h2>
+<hr class="style-three" />
+<hr />
+
+<body  class="background">
+    <p>
+        <a asp-action="Main" asp-route-id="0"  style="font-size:15px">Raise New Voucher</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    <label>Clerk</label>
+                </th>
+                <th>
+                    <label>Voucher No.</label>
+                </th>
+                <th>
+                    <label>@Html.DisplayNameFor(model => model.Status)</label>
+                </th>
+                <th>
+                    <label>Amount</label>
+                </th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AdjustId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    $ @Html.DisplayFor(modelItem => item.Amount)
+                </td>
+
+                @*<td>
+                    @if (item.Status == "Pending")
+                    {
+                        @if (item.Amount > 0)
+                        {
+                            <form asp-action="SubmitAV" method="post">
+                                <button type="submit" name="VoucherId" value="@item.AdjustId" class="btn btn-success" onclick="return confirm('Are you sure to submit?')"><i class="fas fa-database"></i>&nbsp;&nbsp;Submit</button>
+                            </form>
+                        }
+                    }
+                </td>*@
+                <td>
+                    @if (item.Status == "Pending")
+                    {
+                        <div style="margin-top:-5px">
+                            <a asp-controller="AVDetails" asp-action="ViewAV" asp-route-id="@item.AdjustId" class="button" style="background-color:#6a9bc4"><span><b>Manage Details</b></span></a>
+                        </div>
+                    }
+                </td>
+                <td>
+                    @if (item.Status == "Pending")
+                    {
+                        <div style="margin-top:-5px">
+                            <form asp-action="DeleteVoucher" method="post">
+                                <button type="submit" name="VoucherId" value="@item.AdjustId" class="button" style="background-color:#bb6666;"><span><b>Delete</b></span></button>
+                            </form>
+                        </div>
+                    }
+                </td>
+                
+                <td>
+                    @if (item.Status == "Pending")
+                    {
+                        @if (item.Amount > 0)
+                        {
+                            <form asp-action="SubmitAV" method="post">
+                                <button type="submit" name="VoucherId" value="@item.AdjustId" class="button" onclick="return confirm('Are you sure to submit?')" style="margin-top:1px"><span><b>Submit</b></span></button>
+                            </form>
+                        }
+                    }
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+
+</body>
